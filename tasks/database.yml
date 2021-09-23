@@ -1,0 +1,60 @@
+---
+- name: add mongodb repository file
+  template:
+    src: 'mongodb.repo.j2'
+    dest: '/etc/yum.repos.d/mongodb.repo'
+    mode: '0744'
+#  delegate_to: {{ deadline_dbhost }}
+
+- name: Install mongodb
+  yum:
+    name: mongodb-org
+    update_cache: true
+#  delegate_to: {{ deadline_dbhost }}
+
+- name: Copy config file
+  template:
+    src: 'mongod.conf.j2'
+    dest: '/etc/mongod.conf'
+    mode: '0744'
+#  delegate_to: {{ deadline_dbhost }}
+
+- name: Create config folder
+  file:
+    path: '/etc/mongod.d'
+    state: 'directory'
+    mode: '0755'
+#  delegate_to: {{ deadline_dbhost }}
+    
+
+- name: Copy ca in mongo config folder
+  copy:
+    src: '{{ deadline_cert_path }}/keys/ca.crt'
+    dest: '/etc/mongod.d/ca.crt'
+    mode: '0744'
+    owner: 'root'
+    group: 'root'
+#  delegate_to: {{ deadline_dbhost }}
+
+- name: Copy ca in mongo config folder
+  copy:
+    src: '{{ deadline_cert_path }}/keys/{{ deadline_server_hostname }}.pem'
+    dest: '/etc/mongod.d/{{ deadline_server_hostname }}.pem'
+    mode: '0744'
+    owner: 'root'
+    group: 'root'
+#  delegate_to: {{ deadline_dbhost }}
+
+- name: Create mongo db folder
+  file:
+    path: '{{ deadline_db_path }}'
+    state: 'directory'
+    mode: '0744'
+    owner: mongod
+    group: mongod
+
+- name: Enable and start mongod
+  service:
+    name: 'mongod'
+    enabled: true
+    state: 'started'

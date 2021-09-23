@@ -1,0 +1,33 @@
+# mongod.conf
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: {{ deadline_db_logpath }}
+
+# Where and how to store data.
+storage:
+  dbPath: {{ deadline_db_path }}
+  journal:
+    enabled: true
+#  engine:
+#  wiredTiger:
+
+# how the process runs
+processManagement:
+  fork: true  # fork and run in background
+  pidFilePath: /var/run/mongodb/mongod.pid  # location of pidfile
+  timeZoneInfo: /usr/share/zoneinfo
+
+# network interfaces
+net:
+  port: {{ deadline_dbport }}
+  bindIp: {{ deadline_db_bindip }}
+  ssl:
+    mode: requireSSL
+    PEMKeyFile: /etc/mongod.d/{{ deadline_server_hostname }}.pem
+    CAFile: /etc/mongod.d/ca.crt
+
+security:
+  authorization: disabled

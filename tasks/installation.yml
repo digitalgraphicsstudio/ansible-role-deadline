@@ -1,0 +1,17 @@
+---
+- name: Copy installer
+  copy:
+    src: '{{ deadline_installer_path }}/{{ deadline_installer_name }}'
+    dest: '/tmp/{{ deadline_installer_name }}'
+    mode: '0700'
+
+- name: Copy client certificate
+  copy:
+    src: '{{ deadline_cert_path }}/keys/{{ deadline_certs_client }}.pfx'
+    dest: '{{ deadline_path }}/certs/{{ deadline_certs_client }}.pfx'
+    mode: '0700'
+
+- name: Install deadline
+  shell: './{{ deadline_installer_name }} --mode unattended  ----prefix {{ deadline_path }}/repository --installmongodb false --dbhost {{ deadline_dbhost }} --dbport {{ deadline_dbport }} --dbauth {{ deadline_dbauth }} --dbssl {{ deadline_dbssl }} --dbcertpass {{ deadline_certs_password }} --dbclientcert {{ deadline_path }}/certs/{{ deadline_certs_client }}.pfx'
+  args:
+    chdir: '/tmp'

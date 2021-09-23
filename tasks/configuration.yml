@@ -1,0 +1,30 @@
+---
+- name: Set deadline db host
+  lineinfile:
+    path: "{{ deadline_path }}/repository/settings/connection.ini"
+    regexp: '^Hostname='
+    line: 'Hostname={{ deadline_dbhost }}'
+
+- name: Set deadline db port
+  lineinfile:
+    path: "{{ deadline_path }}/repository/settings/connection.ini"
+    regexp: '^Port='
+    line: "Port={{ deadline_dbport }}"
+
+- name: Set deadline db auth
+  lineinfile:
+    path: "{{ deadline_path }}/repository/settings/connection.ini"
+    regexp: '^Authenticate='
+    line: "Authenticate={{ deadline_dbauth }}"
+
+- name: Set deadline db ssl
+  lineinfile:
+    path: "{{ deadline_path }}/repository/settings/connection.ini"
+    regexp: '^EnableSSL=' 
+    line: "EnableSSL={{ deadline_dbssl }}"
+
+- name: Set deadline db name
+  lineinfile: 
+    path: "{{ deadline_path }}/repository/settings/connection.ini"
+    regexp: '^DatabaseName='
+    line: "DatabaseName={{ deadline_dbname }}"

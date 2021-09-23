@@ -1,0 +1,27 @@
+---
+# defaults file for deadline
+deadline_force_install: false
+# Path where deadline is installed
+deadline_path: "/srv/samba/shared"
+deadline_db_logpath: "/var/log/mongodb/mongod.log"
+deadline_db_path: "/opt/mongo"
+deadline_db_bindip: "0.0.0.0"
+deadline_dbhost: "localhost"
+deadline_dbport: 2017
+deadline_dbauth: false
+deadline_dbssl: true
+deadline_dbname: "deadline10db"
+
+deadline_installer_path: "/media/deadline/install"
+deadline_installer_name: "DeadlineRepository-10.1.15.2-linux-x64-installer.run"
+
+deadline_certs_builder: "localhost"
+deadline_cert_path: "/tmp/SSLGeneration"
+deadline_cert_org: "vaaty-corp"
+deadline_cert_ou: "vaaty-corp"
+deadline_certs_password: "password"
+deadline_certs_client: "deadline_client"
+
+deadline_server_hostname: "super-server"
+python_interpreter: "python3"
+deadline_mongo_version: 3.6

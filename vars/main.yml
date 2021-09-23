@@ -1,0 +1,3 @@
+---
+# vars file for deadline
+deadline_dbclientcert: "{{ deadline_cert_path }}/keys/{{ deadline_certs_client }}.pfx"

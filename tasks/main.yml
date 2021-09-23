@@ -1,0 +1,35 @@
+---
+# tasks file for deadline
+- name: create smb folder
+  file:
+    path: "{{ deadline_path }}"
+    state: directory
+    mode: '0755'
+    owner: nobody
+    group: nobody
+    
+- name: Create certs folder
+  file:
+    path: "{{ deadline_path }}/certs"
+    state: directory
+    mode: '0755'
+
+- name: Create repo folder
+  file:
+    path: "{{ deadline_path }}/repository"
+    state: directory
+
+- name: Check if already install
+  stat: 
+    path: "{{ deadline_path }}/repository/settings/repository.ini"
+  register: stat_deadline
+
+- include_tasks: certificat_generation.yml
+  when: not stat_deadline.stat.exists or deadline_force_install
+
+- include_tasks: database.yml
+
+- include_tasks: installation.yml
+  when: not stat_deadline.stat.exists or deadline_force_install
+
+- include_tasks: configuration.yml
